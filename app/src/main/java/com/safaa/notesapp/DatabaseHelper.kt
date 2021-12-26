@@ -2,6 +2,7 @@ package com.safaa.notesapp
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -19,5 +20,22 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,"Notes.dp",nul
         val contentValues = ContentValues()
         contentValues.put("Note" , note)
         sqLiteDatabase.insert("notes",null,contentValues)
+    }
+
+    fun readData(): ArrayList<Note>{
+        var noteList = arrayListOf<Note>()
+
+        //read all data using cursor var
+        val cursor : Cursor = sqLiteDatabase.rawQuery("SELECT * FROM notes",null)
+
+        if(cursor.count < 1)
+            print("No data found")
+        else{
+            while(cursor.moveToNext()){
+                //integer refers to colum
+                noteList.add(Note(cursor.getString(0)))
+            }
+        }
+       return noteList
     }
 }

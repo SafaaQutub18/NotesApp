@@ -9,9 +9,9 @@ import com.safaa.notesapp.databinding.RowRecyclerviewBinding
 class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
     class RecyclerViewHolder(val binding: RowRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root)
 
-    var noteList: ArrayList<String> = ArrayList()
+    var noteList: ArrayList<Note> = ArrayList()
 
-    fun setNotesList(notesList: ArrayList<String>) {
+    fun setNotesList(notesList: ArrayList<Note>) {
         this.noteList = notesList
         notifyDataSetChanged()
     }
@@ -25,7 +25,7 @@ class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.RecyclerView
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         var currentNote = noteList[position]
         holder.binding.apply {
-           // titleTV.text = "${currentQuestion.title}"
+           titleTV.text = currentNote.text
 
         }
     }
