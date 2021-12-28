@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.safaa.notesapp.databinding.RowRecyclerviewBinding
 
 
-class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+class RecyclerViewAdapter(private val activity : MainActivity): RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
     class RecyclerViewHolder(val binding: RowRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root)
 
     var noteList: ArrayList<Note> = ArrayList()
@@ -23,11 +23,27 @@ class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.RecyclerView
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+
         var currentNote = noteList[position]
+
         holder.binding.apply {
+          // cardLayout.setBackgroundResource(R.drawable.custom_button);
            titleTV.text = currentNote.text
+
+            cardLayout.setOnClickListener {
+                activity.selectedItem = currentNote
+                activity.showDialog(currentNote.text)
+            }
 
         }
     }
     override fun getItemCount() = noteList.size
+
+
+    fun removeItem(holder: RecyclerView.ViewHolder ) {
+        activity.deletedNote = noteList[holder.adapterPosition]
+        noteList.removeAt(holder.adapterPosition)
+        notifyItemRemoved(holder.adapterPosition)
+
+    }
 }
